@@ -1,102 +1,65 @@
+
 #version 330 compatibility
-
-// you can set these 4 uniform variables dynamically or hardwire them:
-uniform float	uKa, uKd, uKs;	// coefficients of each type of lighting
-uniform float	uShininess;	// specular exponent
-
-// in Project #1, these have to be set dynamically from glman sliders or keytime animations or by keyboard hits:
-uniform float	uAd, uBd;
-uniform float	uTol;
-
-
-// We introduce the noise
-uniform float uNoiseFreq, uNoiseAmp;
+in vec3 vMC;
+in vec3 vNs;
+in vec3 vLs;
+in vec3 vEs;
+uniform float uKa, uKd, uKs;
+uniform vec4 uColor;
+uniform float uShininess;
 uniform sampler3D Noise3;
+uniform float uNoiseAmp;
+uniform float uNoiseFreq;
+const vec4 WHITE = { 1., 1., .8, 1. };
 
-
-
-// interpolated from the vertex shader:
-in  vec2  vST;    // texture coords
-in  vec3  vN;     // normal vector
-in  vec3  vL;     // vector from point to light
-in  vec3  vE;     // vector from point to eye
-in  vec3  vMC;    // model coordinates
-
-const vec3 OBJECTCOLOR   = vec3( 1.0, 1.0, 0.0 );  // example: yellow
-const vec3 ELLIPSECOLOR = vec3(0.12, 0.24, 0.7); // example: pink
-const vec3 SPECULARCOLOR = vec3( 1., 1., 1. );
-
-void main( )
-{
-    vec2 st = vST;
-    vec3 myColor = OBJECTCOLOR;
-
-    vec4 nv = texture(Noise3, uNoiseFreq*vMC);
-    
-    float n = nv.r + nv.g + nv.b + nv.a; // range is 1.0 --> 3.
-    n = n - 2.;
-
-    n *= uNoiseAmp;
-
-    
-
-    // 1. Figure out which tile we're in:
-    int numins = int( st.s / uAd );
-    int numint = int( st.t / uBd );
-
-    // 2. Half-width/height of each tile:
-    float Ar = 0.5 * uAd;
-    float Br = 0.5 * uBd;
-
-    // 3. Center of the current tile:
-    float sc = numins * uAd + Ar;
-    float tc = numint * uBd + Br;
-
-    float ds = st.s - sc;
-    float dt = st.t - tc;
-
-    float oldDist = sqrt(ds*ds + dt*dt);
-    float newDist = oldDist + n;
-    float scale = newDist / oldDist;
-
-
-    ds *= scale;
-    ds /= Ar;
-    dt *= scale;
-    dt /= Br;
-    float dd = ds*ds + dt*dt;
-
-    // 5. Smoothly blend between ELLIPSECOLOR (inside ellipse) and OBJECTCOLOR (outside):
-    float t = smoothstep( 1.0 - uTol, 1.0 + uTol, dd );
-    myColor = mix( ELLIPSECOLOR, OBJECTCOLOR, t );
-
-    // ========== Per-fragment lighting calculations: ==========
-
-    vec3 Normal = normalize( vN );
-    vec3 Light  = normalize( vL );
-    vec3 Eye    = normalize( vE );
-
-    // ambient:
-    vec3 ambient = uKa * myColor;
-
-    // diffuse:
-    float d = max( dot(Normal, Light), 0.0 );  
-    vec3 diffuse = uKd * d * myColor;
-
-    // specular:
-    float s = 0.0;
-    if( d > 0.0 ) {
-        vec3 ref = normalize( reflect( -Light, Normal ) );
-        float cosphi = dot( Eye, ref );
-        if( cosphi > 0.0 )
-            s = pow( cosphi, uShininess );
-    }
-    vec3 specular = uKs * s * SPECULARCOLOR;
-
-    gl_FragColor = vec4( ambient + diffuse + specular, 1.0 );
-
-
+vec3 RotateNormal( float angx, float angy, vec3 n ){
+    float cx = cos( angx );
+    float sx = sin( angx );
+    float cy = cos( angy );
+    float sy = sin( angy );
+    // rotate about x:
+    float yp = n.y*cx - n.z*sx; // y'
+    n.z = n.y*sx + n.z*cx; // z'
+    n.y = yp;
+    // n.x = n.x;
+    // rotate about y:
+    float xp = n.x*cy + n.z*sy; // x'
+    n.z = -n.x*sy + n.z*cy; // z'
+    n.x = xp;
+    // n.y = n.y;
+    return normalize( n );
 }
 
 
-// src: https://web.engr.oregonstate.edu/~mjb/cs557/Handouts/noise.1pp.pdf
+void main(){
+    vec4 nvx = texture3D( Noise3, uNoiseFreq*vMC );
+    vec4 nvy = texture3D( Noise3, uNoiseFreq*vec3(vMC.xy,vMC.z+0.5) );
+    float angx = nvx.r + nvx.g + nvx.b + nvx.a; // 1. -> 3.
+    angx = angx - 2.;
+    // -1. -> 1.
+    angx *= uNoiseAmp;
+    float angy = nvy.r + nvy.g + nvy.b + nvy.a; // 1. -> 3.
+    angy = angy - 2.;
+    // -1. -> 1.
+    angy *= uNoiseAmp;
+    vec3 normal = normalize( vNs );
+    vec3 light = normalize( vLs );
+    vec3 eye = normalize( vEs );
+
+    normal = RotateNormal( angx, angy, normal );
+
+    vec4 ambient = uKa * uColor;
+    float d = max( dot(normal,light), 0. );
+    d = abs( dot(normal,light));
+    vec4 diffuse = uKd * d * uColor;
+    
+    float s = 0.;
+    if( dot(normal,light) > 0. ) // only do specular if the light can see the point
+    {
+        vec3 ref = normalize( 2. * normal * dot(normal,light) - light );
+        s = pow( max( dot(eye,ref),0. ), uShininess );
+    }
+    vec4 specular = uKs * s * WHITE;
+    gl_FragColor = vec4( ambient.rgb + diffuse.rgb + specular.rgb, 1. );
+
+}
