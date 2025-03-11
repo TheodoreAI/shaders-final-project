@@ -3,16 +3,13 @@ LookAt  0 0 3  0 0 0  0 1 0
 Perspective 70
 Timer 60
 
-Vertex   final.vert
-Fragment final.frag
-Program  Final                          \
+Vertex   ocean.vert
+Fragment ocean.frag
+Program  Ocean                          \
         uKa <0.1 0.1 0.5>               \
         uKd <0.1 0.6 1.>                \
         uKs <0.1 0.3 1.>                \
         uShininess <1. 10. 25.>         \
-        uAd <.01 .05 .5>		\
-	uBd <.01 .05 .5> 		\
-        uTol <0. 0. 1.>			\
         uNoiseAmp <0. 0. 1.>		\
 	uNoiseFreq <0. 1. 10.>          \
         uColor {.1 1. .8 1.}            \
@@ -30,4 +27,14 @@ Program  Final                          \
 
 
 
-QuadXZ -0.2 3. 300 300
+QuadXZ -0.2 3. 300 500
+
+
+Vertex sand.vert
+Fragment sand.frag
+Program Sand                            \
+        shiftX <0. 5., 50.>             \
+        shiftZ <0. 0., 50.>             \
+
+
+QuadXZ -0.2 3. 300 500
