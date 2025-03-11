@@ -2,9 +2,9 @@
 LookAt  0 0 3  0 0 0  0 1 0
 Perspective 70
 
-Vertex   ovalnoise.vert
-Fragment ovalnoise.frag
-Program  OvalNoise                      \
+Vertex   final.vert
+Fragment final.frag
+Program  Final                      \
         uKa <0.1 0.1 0.5>               \
         uKd <0.1 0.6 1.>                \
         uKs <0.1 0.3 1.>                \
