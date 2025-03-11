@@ -1,19 +1,40 @@
 ##OpenGL GLIB
 LookAt  0 0 3  0 0 0  0 1 0
 Perspective 70
+Timer 60
 
-Vertex   ovalnoise.vert
-Fragment ovalnoise.frag
-Program  OvalNoise                      \
+Vertex   ocean.vert
+Fragment ocean.frag
+Program  Ocean                          \
         uKa <0.1 0.1 0.5>               \
         uKd <0.1 0.6 1.>                \
         uKs <0.1 0.3 1.>                \
         uShininess <1. 10. 25.>         \
-        uAd <.01 .05 .5>		\
-	uBd <.01 .05 .5> 		\
-        uTol <0. 0. 1.>			\
         uNoiseAmp <0. 0. 1.>		\
-	uNoiseFreq <0. 1. 10.>
+	uNoiseFreq <0. 1. 10.>          \
+        uColor {.1 1. .8 1.}            \
+        uTimeScale <1. 2. 100.>         \
+        uAm0 <0. .2 1.>                 \
+        uKm0 <0.1 1. 5.>                \
+        uGamma0 <-1.57080 0. 1.57080>   \
+        uAm1 <0. 0. 1.>                 \
+        uKm1 <0.1 2. 5.>                \
+        uPhiM1 <0. 0. 6.28>             \
+        uGamma1 <-1.57080 0. 1.57080>   \
+        uLightX <-20. 0. 20.>           \
+        uLightY <1. 10. 20.>            \
+        uLightZ <-20. -20. 20.>         \
 
 
-Obj spaceship.obj 1.0 50 50
+
+QuadXZ -0.2 3. 300 500
+
+
+Vertex sand.vert
+Fragment sand.frag
+Program Sand                            \
+        shiftX <0. 5., 50.>             \
+        shiftZ <0. 0., 50.>             \
+
+
+QuadXZ -0.2 3. 300 500
