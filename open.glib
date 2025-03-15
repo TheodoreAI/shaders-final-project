@@ -38,3 +38,28 @@ Program Sand uColorUnit 6               \
 
 
 QuadXZ -0.2 3. 1000 100
+
+
+// Making the walls
+Vertex sky_shader.vert
+Fragment sky_shader.frag
+Program  Sky  TexUnit 6
+        scale <0.2, 5.0, 100.>          \
+
+Texture2D  6  nvposx.bmp
+QuadYZ 5. 5. 100 100
+
+Texture2D  6  nvnegx.bmp
+QuadYZ -5. 5. 100 100
+
+Texture2D  6  nvposy.bmp
+QuadXZ 5. 5. 100 100
+
+Texture2D  6  nvnegy.bmp
+QuadXZ -5. 5. 100 100
+
+Texture2D  6  nvposz.bmp
+QuadXY 5. 5. 100 100
+
+Texture2D  6  nvnegz.bmp
+QuadXY -5. 5. 100 100

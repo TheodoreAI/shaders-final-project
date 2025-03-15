@@ -1,5 +1,6 @@
 uniform float shiftX;
 uniform float shiftZ;
+uniform float shiftY;
 
 out vec2  vST;
 
@@ -10,5 +11,6 @@ void main() {
     vec4 pos = gl_Vertex;
     pos.x += shiftX;
     pos.z += shiftZ;
+    pos.y += shiftY;
     gl_Position = gl_ModelViewProjectionMatrix * pos;
 }
