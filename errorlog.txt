@@ -1,8 +1,6 @@
 
-ERROR: 0:8: 'vST' : undeclared identifier 
-ERROR: 0:8: 'texture' : no matching overloaded function found (using implicit conversion) 
-ERROR: 0:8: 'texture' : function is not known 
-ERROR: 0:8: 'rgb' : field selection requires structure, vector, or matrix on left hand side 
-ERROR: 0:8: '=' :  cannot convert from 'const highp float' to '3-component vector of highp float'
+ERROR: 0:27: 'assign' : l-value required "gl_Vertex" (cannot modify an attribute)
+ERROR: 0:28: 'assign' : l-value required "gl_Vertex" (cannot modify an attribute)
+ERROR: 0:29: 'assign' : l-value required "gl_Vertex" (cannot modify an attribute)
 
 

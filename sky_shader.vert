@@ -11,7 +11,7 @@ main( )
 
     pos.y *= scale;
     pos.x *= scale;
-    pos.x *= scale;
+    pos.z *= scale;
 	gl_Position = gl_ModelViewProjectionMatrix * pos;
 }
 

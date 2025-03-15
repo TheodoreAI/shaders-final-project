@@ -11,6 +11,9 @@ uniform float uPhiM1;
 uniform float uGamma1;
 uniform float Timer;
 uniform float uLightX, uLightY, uLightZ;
+uniform float shiftX, shiftY, shiftZ;
+uniform float scale;
+
 vec3 eyeLightPosition = vec3( uLightX, uLightY, uLightZ );
 out vec3 vMC;
 out vec3 vEs;
@@ -19,17 +22,30 @@ out vec3 vNs;
 const float PI = 3.14159265;
 const float G = 1.;
 
+
 void main( ){
+
+	
 
 	float newx = gl_Vertex.x;
 	float newy = 0.;
 	float newz = gl_Vertex.z;
+	float posY = gl_Vertex.y;
 	float dxda = 1.;
 	float dyda = 0.;
 	float dzda = 0.;
 	float dxdb = 0.;
 	float dydb = 0.;
 	float dzdb = 1.;
+
+	//* shift */
+    newx += shiftX;
+    newz += shiftZ;
+    posY += shiftY;
+
+	newx *= scale;
+	newz *= scale;
+	posY *= scale;
 
 	// m = 0
 	{
