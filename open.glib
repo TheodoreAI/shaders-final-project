@@ -3,6 +3,25 @@ LookAt  0 0 3  0 0 0  0 1 0
 Perspective 70
 Timer 60
 
+Texture2D 6 soccer.bmp
+Vertex soccerball.vert
+Fragment soccerball.frag
+Program Ball TexUnit 6                  \
+        uTimeScale <1. 2. 100.>         \
+        uTimeScale <1. 10. 100.>        \
+        uAm0 <0. .5 2.>                 \
+        uKm0 <0.1 2.5 5.>               \
+        uGamma0 <-1.57080 0.5 1.57080>  \
+        uAm1 <0. 0.3 1.5>               \
+        uKm1 <0.1 3. 6.>                \
+        uPhiM1 <0. 3.14 6.28>           \
+        uGamma1 <-1.57080 1.5 1.57080>  \
+        scale <0.5 1.0 5.0>             \
+        shiftY <-2.0 0.0 2.0>           \
+        uObjectXZPos { 0.0 1.0 2.0 }    
+
+Sphere 2. 60. 60.
+
 Vertex   ocean.vert
 Fragment ocean.frag
 Program  Ocean                          \
@@ -14,36 +33,36 @@ Program  Ocean                          \
 	uNoiseFreq <0. 1. 10.>          \
         uColor {.1 1. .8 1.}            \
         uTimeScale <1. 2. 100.>         \
-        uAm0 <0. .2 1.>                 \
-        uKm0 <0.1 1. 5.>                \
-        uGamma0 <-1.57080 0. 1.57080>   \
-        uAm1 <0. 0. 1.>                 \
-        uKm1 <0.1 2. 5.>                \
-        uPhiM1 <0. 0. 6.28>             \
-        uGamma1 <-1.57080 0. 1.57080>   \
+        uTimeScale <1. 10. 100.>        \
+        uAm0 <0. .5 2.>                 \
+        uKm0 <0.1 2.5 5.>               \
+        uGamma0 <-1.57080 0.5 1.57080>  \
+        uAm1 <0. 0.3 1.5>               \
+        uKm1 <0.1 3. 6.>                \
+        uPhiM1 <0. 3.14 6.28>           \
+        uGamma1 <-1.57080 1.5 1.57080>  \
         uLightX <-20. 0. 20.>           \
         uLightY <1. 10. 20.>            \
         uLightZ <-20. -20. 20.>         \
-        shiftX <0. 0., 50.>             \
-        shiftZ <0. 0., 50.>             \
-        shiftY <0. 0., 50.>             \
-        scale <0.2, 3.0, 5.>            \
+        shiftX <0. 0. 50.>              \
+        shiftZ <0. 0. 50.>              \
+        shiftY <0. 0. 50.>              \
+        scale <0.2 3.0 5.>              \
 
-Soccerball 1.
 QuadXZ -5. 10. 100 100
 
 
-Texture2D 6 sand.bmp
-Vertex sand.vert
-Fragment sand.frag
-Program Sand uColorUnit 6               \
-        shiftX <0. 0., 50.>             \
-        shiftZ <0. 0., 50.>             \
-        shiftY <0. 0., 50.>             \
-        scale <0.2, 3.0, 5.>            \
+// Texture2D 6 sand.bmp
+// Vertex sand.vert
+// Fragment sand.frag
+// Program Sand uColorUnit 6               \
+//         shiftX <0. 0., 50.>             \
+//         shiftZ <0. 0., 50.>             \
+//         shiftY <0. 0., 50.>             \
+//         scale <0.2, 3.0, 5.>            \
 
 
-QuadXZ -10. 10. 100 100
+//QuadXZ -10. 10. 100 100
 
 
 // Making the walls

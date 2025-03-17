@@ -1,6 +1,4 @@
 
-ERROR: 0:27: 'assign' : l-value required "gl_Vertex" (cannot modify an attribute)
-ERROR: 0:28: 'assign' : l-value required "gl_Vertex" (cannot modify an attribute)
-ERROR: 0:29: 'assign' : l-value required "gl_Vertex" (cannot modify an attribute)
+ERROR: 0:37: 'assign' :  cannot convert from 'attribute 4-component vector of highp float' to 'varying 3-component vector of highp float'
 
 
